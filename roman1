@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>ИнСайт</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#111,#222,#333);
+    color:white;
+    text-align:center;
+    transition:0.5s;
+}
+
+h1{
+    margin-top:20px;
+}
+
+.container{
+    margin-top:30px;
+}
+
+button{
+    padding:10px 20px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+.toggle{
+    background:#444;
+    color:white;
+}
+
+.light{
+    width:100px;
+    height:100px;
+    margin:20px auto;
+    border-radius:50%;
+    background:#222;
+    box-shadow:0 0 20px #000;
+    transition:0.4s;
+}
+
+.on{
+    background:yellow;
+    box-shadow:0 0 50px yellow;
+}
+
+.hidden-box{
+    margin-top:40px;
+}
+
+input{
+    padding:8px;
+    border-radius:6px;
+    border:none;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Инравнрица</h1>
+
+<div class="container">
+
+    <button onclick="changeBg()">Сменить фон</button>
+
+    <button onclick="toggleLight()" class="toggle">
+        Включить / Выключить лампу
+    </button>
+
+    <button onclick="playSound()">Издать звук</button>
+
+    <button onclick="countClicks()">Кликер</button>
+
+    <div class="light" id="lamp"></div>
+
+    <p>Клики: <span id="clicks">0</span></p>
+
+</div>
+
+<div class="hidden-box">
+    <p>напиши:</p>
+    <input type="text" id="secretInput">
+    <button onclick="checkSecret()">Проверить</button>
+</div>
+
+<script>
+let colors = ["#111","#1a1a2e","#16213e","#0f3460","#533483"];
+let index = 0;
+let clicks = 0;
+
+function changeBg(){
+    index++;
+    if(index >= colors.length) index = 0;
+    document.body.style.background = colors[index];
+}
+
+function toggleLight(){
+    document.getElementById("lamp").classList.toggle("on");
+}
+
+//  mp3 
+function playSound(){
+    let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let oscillator = audioCtx.createOscillator();
+    oscillator.type = "square";
+    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+    oscillator.connect(audioCtx.destination);
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.2);
+}
+
+function countClicks(){
+    clicks++;
+    document.getElementById("clicks").innerText = clicks;
+}
+
+// праавп
+function checkSecret(){
+    let value = document.getElementById("secretInput").value.toLowerCase();
+    if(value === "magic"){
+        window.open("https://www.youtube.com/channel/UCQXSZdxNGT5HypF8YJ5CZTw", "_blank");
+    }else{
+        alert("НЕТ!");
+    }
+}
+</script>
+
+</body>
+</html>
